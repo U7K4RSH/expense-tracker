@@ -6,9 +6,8 @@ import { Budgets, Expenses } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
 import BudgetItem from './BudgetItem'
 import CreateBudget from './createBudget'
+
 function BudgetList() {
-
-
   const { user } = useUser();
   const [budgetList, setBudgetList] = useState([]);
 

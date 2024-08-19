@@ -29,6 +29,21 @@ function GroupName({ params }) {
   const [debt, setdebt] = useState([]);
   const [expenseList, setexpenseList] = useState([]);
   const [gname, setgname] = useState();
+  const route = useRouter();
+
+  const checkUser = async () => {
+    const result = await db.select({email:MemberGroups.email}).from(MemberGroups)
+    .where(eq(MemberGroups.groupId, params.id))
+
+    let x = 0
+      if (result.some(row => row.email === user?.primaryEmailAddress?.emailAddress)) {
+        x = 1;
+    }
+
+    if (x===0) {
+      route.replace('/dashboard/groups')
+    }
+  }
   
   const resolveDebt = async () => {
     const result = await db.select().from(Graph)
@@ -91,7 +106,7 @@ function GroupName({ params }) {
     setdebt(result2);
   }
 
-  const route = useRouter();
+  
   const getExpenseTable = async () => {
     const result = await db.select().from(GroupExpenses)
       .where(eq(GroupExpenses.groupId, params.id))
@@ -121,6 +136,7 @@ function GroupName({ params }) {
 
   useEffect(() => {
     if (user) {
+      checkUser();
       resolveDebt();
       getExpenseTable();
       getName();

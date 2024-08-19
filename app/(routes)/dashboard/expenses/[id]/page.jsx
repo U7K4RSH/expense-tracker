@@ -30,6 +30,19 @@ function ExpensesScreen({ params }) {
     const [budgetInfo, setBudgetInfo] = useState();
     const [expensesList, setExpensesList] = useState([]);
     const route = useRouter();
+
+    const checkUser = async () => {
+        const result = await db.select({email: Budgets.createdBy}).from(Budgets)
+        .innerJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+        .where(eq(Expenses.id, params.id))
+        console.log("Info",result)
+        if (result) {
+            if (result.email !== user?.primaryEmailAddress?.emailAddress) {
+                route.replace('/dashboard/budgets');
+            }
+        }
+    }
+
     const getBudgetInfo = async () => {
         const result = await db.select({
             ...getTableColumns(Budgets),
@@ -65,7 +78,10 @@ function ExpensesScreen({ params }) {
     }
 
     useEffect(() => {
-        user && getBudgetInfo();
+        if (user) {
+            checkUser();
+            getBudgetInfo();
+        }
     }, [user]);
 
     return (
