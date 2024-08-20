@@ -155,7 +155,7 @@ function GroupName({ params }) {
         </h2>
         <div className='flex gap-2 items-center'>
           <AddExpense params={params} refreshData={() => resolveDebt()} refreshData2={() => getExpenseTable()} />
-          <ManageGroup params={params} refreshData={() => resolveDebt()} />
+          <ManageGroup params={params} />
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className="flex gap-2" variant="destructive">

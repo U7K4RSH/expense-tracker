@@ -31,7 +31,7 @@ import moment from 'moment/moment';
 import { toast } from 'sonner';
 
 function AddExpense({ params, refreshData, refreshData2 }) {
-    const [position, setPosition] = useState("bottom");
+    const [position, setPosition] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [groupMembers, setGroupMembers] = useState([]);
     const [expenseName, setexpenseName] = useState('');
@@ -97,7 +97,6 @@ function AddExpense({ params, refreshData, refreshData2 }) {
     useEffect(() => {
         if (user) {
             getMembers();
-            setPosition(user?.fullName)
         }
     }, [user]);
 
@@ -133,9 +132,9 @@ function AddExpense({ params, refreshData, refreshData2 }) {
                                         <DropdownMenuContent>
                                             {groupMembers.map((member) => (
                                                 <DropdownMenuItem
-                                                    key={member.name} // Use email as the key
+                                                    key={member.name} 
                                                     onSelect={(e) => {
-                                                        e.preventDefault(); // Prevent the dropdown from closing
+                                                        e.preventDefault();
                                                         handleCheckboxChange(member.name);
                                                     }}
                                                 >
@@ -153,14 +152,14 @@ function AddExpense({ params, refreshData, refreshData2 }) {
                                     <h2 className='text-black font-medium my-1'>Paid by</h2>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
-                                            <Button variant="outline">Open</Button>
+                                            <Button variant="outline">{position.length>0 ? position : "Select"}</Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
                                             <DropdownMenuSeparator />
                                             <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
                                                 {groupMembers.map((member) => (
                                                     <DropdownMenuRadioItem
-                                                        key={member.name} // Use email as the key
+                                                        key={member.name} 
                                                         value={member.name}
                                                     >
                                                         {member.name}
@@ -176,7 +175,7 @@ function AddExpense({ params, refreshData, refreshData2 }) {
                     <DialogFooter>
                         <DialogClose asChild>
                             <Button
-                                disabled={!(expenseAmount&&expenseName&&selectedItems?.length>0)}
+                                disabled={!(expenseAmount&&expenseName&&selectedItems?.length>0&&(position.length!==0))}
                                 onClick={addExpense}
                                 className="mt-5 w-full">
                                 Add Expense

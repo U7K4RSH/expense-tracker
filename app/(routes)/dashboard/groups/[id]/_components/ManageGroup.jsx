@@ -17,11 +17,11 @@ import { MemberGroups } from '@/utils/schema';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input'
 
-function ManageGroup({params, refreshData}) {
+function ManageGroup({params}) {
 
     const [email, setEmail] = useState();
     const [name, setName] = useState();
-
+    
     const onUpdateMembers = async () => {
         const result = await db.insert(MemberGroups).values({
             email:email,
@@ -31,7 +31,6 @@ function ManageGroup({params, refreshData}) {
 
         if (result) {
             toast('Member added successfully')
-            refreshData();
         }
     }
 
@@ -49,7 +48,7 @@ function ManageGroup({params, refreshData}) {
                                 <div className='mt-2'>
                                     <h2 className='text-black font-medium my-1'>Name</h2>
                                     <Input
-                                        placeholder="e.g. joe@example.com"
+                                        placeholder="e.g. Joe"
                                         onChange={(e) => setName(e.target.value)} />
                                 </div>
                             </div>
