@@ -1,7 +1,7 @@
-import { integer, numeric, pgTable, serial, varchar } from 'drizzle-orm/pg-core'; 
+import { integer, numeric, pgTable, serial, uuid, varchar } from 'drizzle-orm/pg-core'; 
 
 export const Budgets = pgTable('budgets', {
-    id: serial('id').primaryKey(), 
+    id: uuid("id").defaultRandom().primaryKey(), 
     name: varchar('name').notNull(),
     amount: numeric('amount').notNull(),
     icon: varchar('icon'),
@@ -12,25 +12,26 @@ export const Expenses = pgTable('expenses', {
     id: serial('id').primaryKey(), 
     name: varchar('name').notNull(),
     amount: numeric('amount').notNull(),
-    budgetId:integer('budgetId').references(()=>Budgets.id),
+    budgetId:uuid('budgetId').references(()=>Budgets.id),
     createdAt: varchar('createdAt').notNull()
 });
 
 export const Groups = pgTable('Groups', {
-    id: serial('id').primaryKey(), 
+    id: uuid("id").defaultRandom().primaryKey(), 
     name: varchar('name').notNull(),
     createdBy: varchar('createdBy').notNull()
 });
 
 export const MemberGroups = pgTable('MemberGroups', {
+    id: uuid("id").defaultRandom().primaryKey(),
     email: varchar('email').notNull(),
     name: varchar('name').notNull(),
-    groupId:integer('groupId').references(()=>Groups.id),
+    groupId:uuid('groupId').references(()=>Groups.id),
 });
 
 export const GroupExpenses = pgTable('GroupExpenses', {
     expenseId: serial('expenseId').primaryKey(), 
-    groupId:integer('groupId').references(()=>Groups.id),
+    groupId:uuid('groupId').references(()=>Groups.id),
     createdAt: varchar('createdAt').notNull(),
     createdBy: varchar('createdBy').notNull(),
     name: varchar('name').notNull(),
@@ -39,7 +40,8 @@ export const GroupExpenses = pgTable('GroupExpenses', {
 });
 
 export const Graph = pgTable('Graph', {
-    groupId:integer('groupId').references(()=>Groups.id),
+    id: uuid("id").defaultRandom().primaryKey(),
+    groupId:uuid('groupId').references(()=>Groups.id),
     expenseId:integer('expenseId').references(()=>GroupExpenses.expenseId),
     from: varchar('from').notNull(),
     to: varchar('to').notNull(),

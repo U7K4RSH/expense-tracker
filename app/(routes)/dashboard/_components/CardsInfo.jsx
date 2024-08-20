@@ -7,7 +7,6 @@ function CardsInfo({budgetList}) {
     const [totalSpent, setTotalSpent] = useState(0);
 
     const CalculateCardInfo = () =>{
-        console.log(budgetList)
         let total_budget = 0
         let total_spent = 0
         budgetList.forEach(element => {

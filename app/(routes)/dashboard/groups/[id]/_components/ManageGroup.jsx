@@ -31,7 +31,6 @@ function ManageGroup({params, refreshData}) {
 
         if (result) {
             toast('Member added successfully')
-            console.log(result)
             refreshData();
         }
     }

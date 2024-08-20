@@ -7,11 +7,6 @@ import React, { useEffect } from 'react'
 
 function GroupItem({group}) {
 
-    const getCreator = async (group) => {
-        const result = await db.select('name').from(MemberGroups).where(eq(group?.createdBy,MemberGroups.email))
-        console.log(result)
-    }
-
     return (
         <Link href={'/dashboard/groups/' + group?.id} >
             <div className='p-5 border rounded-lg hover:shadow-md cursor-pointer h-[170px]'>

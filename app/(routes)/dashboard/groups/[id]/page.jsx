@@ -103,7 +103,9 @@ function GroupName({ params }) {
         pq2.dequeue();
       }
     }
-    setdebt(result2);
+    if (result2) {
+      setdebt(result2);
+    }
   }
 
   
@@ -111,7 +113,9 @@ function GroupName({ params }) {
     const result = await db.select().from(GroupExpenses)
       .where(eq(GroupExpenses.groupId, params.id))
       .orderBy(desc(GroupExpenses.expenseId));
-    setexpenseList(result);
+    if (result) {
+      setexpenseList(result);
+    }
   }
 
   const getName = async () => {

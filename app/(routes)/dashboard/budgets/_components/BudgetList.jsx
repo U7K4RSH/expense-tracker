@@ -21,7 +21,10 @@ function BudgetList() {
       .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
       .groupBy(Budgets.id)
       .orderBy(desc(Budgets.id));
-    setBudgetList(result)
+    
+      if (result) {
+        setBudgetList(result)
+      }
   }
   useEffect(() => {
     user && getBudgetList();

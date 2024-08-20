@@ -20,7 +20,6 @@ function GroupList() {
         .where(eq(MemberGroups.email, user?.primaryEmailAddress?.emailAddress))
 
         if (result) {
-            console.log(result)
             setGroupList(result)
         }
     }

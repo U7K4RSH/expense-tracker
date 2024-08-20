@@ -32,10 +32,7 @@ function ExpensesScreen({ params }) {
     const route = useRouter();
 
     const checkUser = async () => {
-        const result = await db.select({email: Budgets.createdBy}).from(Budgets)
-        .innerJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
-        .where(eq(Expenses.id, params.id))
-        console.log("Info",result)
+        const result = await db.select({email: Budgets.createdBy}).from(Budgets).where(eq(Budgets.id, params.id))
         if (result) {
             if (result[0].email !== user?.primaryEmailAddress?.emailAddress) {
                 route.replace('/dashboard/budgets');
@@ -53,7 +50,9 @@ function ExpensesScreen({ params }) {
             .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
             .where(eq(Budgets.id, params.id))
             .groupBy(Budgets.id);
-        setBudgetInfo(result[0])
+            if (result) {
+                setBudgetInfo(result[0])
+            }
         getExpensesList();
     };
 
@@ -61,7 +60,9 @@ function ExpensesScreen({ params }) {
         const result = await db.select().from(Expenses)
             .where(eq(Expenses.budgetId, params.id))
             .orderBy(desc(Expenses.id));
-        setExpensesList(result)
+            if (result) {
+                setExpensesList(result)
+            }
     }
 
     const deleteBudget = async () => {

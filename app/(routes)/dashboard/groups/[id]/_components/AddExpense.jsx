@@ -52,9 +52,10 @@ function AddExpense({ params, refreshData, refreshData2 }) {
             .select({ email: MemberGroups.email, name:MemberGroups.name })
             .from(MemberGroups)
             .where(eq(MemberGroups.groupId, params.id));
-        console.log("Group Members:", result);
-        setGroupMembers(result);
-        setSelectedItems(result.map(member => member.name));
+        if (result) {
+            setGroupMembers(result);
+            setSelectedItems(result.map(member => member.name));
+        }
     };
     
     const addExpense = async () => {
