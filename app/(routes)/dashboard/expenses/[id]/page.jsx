@@ -37,7 +37,7 @@ function ExpensesScreen({ params }) {
         .where(eq(Expenses.id, params.id))
         console.log("Info",result)
         if (result) {
-            if (result.email !== user?.primaryEmailAddress?.emailAddress) {
+            if (result[0].email !== user?.primaryEmailAddress?.emailAddress) {
                 route.replace('/dashboard/budgets');
             }
         }
