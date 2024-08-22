@@ -32,18 +32,24 @@ function GroupName({ params }) {
   const route = useRouter();
 
   const checkUser = async () => {
-    const result = await db.select({email:MemberGroups.email}).from(MemberGroups)
-    .where(eq(MemberGroups.groupId, params.id))
+    try {
+        const result = await db.select({ email: MemberGroups.email })
+            .from(MemberGroups)
+            .where(eq(MemberGroups.groupId, params.id));
 
-    let x = 0
-      if (result.some(row => row.email === user?.primaryEmailAddress?.emailAddress)) {
-        x = 1;
-    }
+        let x = 0;
+        if (result.some(row => row.email === user?.primaryEmailAddress?.emailAddress)) {
+            x = 1;
+        }
 
-    if (x===0) {
-      route.replace('/dashboard/groups')
+        if (x === 0) {
+            route.replace('/dashboard/groups');
+        }
+    } catch (error) {
+        route.replace('/dashboard/groups');
     }
-  }
+};
+
   
   const resolveDebt = async () => {
     const result = await db.select().from(Graph)

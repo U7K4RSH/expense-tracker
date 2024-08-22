@@ -32,29 +32,47 @@ function ExpensesScreen({ params }) {
     const route = useRouter();
 
     const checkUser = async () => {
-        const result = await db.select({email: Budgets.createdBy}).from(Budgets).where(eq(Budgets.id, params.id))
-        if (result) {
-            if (result[0].email !== user?.primaryEmailAddress?.emailAddress) {
-                route.replace('/dashboard/budgets');
+        try {
+            const result = await db.select({ email: Budgets.createdBy })
+                .from(Budgets)
+                .where(eq(Budgets.id, params.id));
+            
+            if (result.length > 0) {
+                if (result[0].email !== user?.primaryEmailAddress?.emailAddress) {
+                    route.replace('/dashboard/budgets');
+                }
             }
+        } catch (error) {
+            route.replace('/dashboard/budgets'); 
         }
-    }
+    };
+    
 
     const getBudgetInfo = async () => {
-        const result = await db.select({
-            ...getTableColumns(Budgets),
-            totalSpent: sql`sum(${Expenses.amount})`.mapWith(Number),
-            totalItem: sql`count(${Expenses.id})`.mapWith(Number)
-        }).from(Budgets)
+        try {
+            const result = await db.select({
+                ...getTableColumns(Budgets),
+                totalSpent: sql`sum(${Expenses.amount})`.mapWith(Number),
+                totalItem: sql`count(${Expenses.id})`.mapWith(Number)
+            })
+            .from(Budgets)
             .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
             .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
             .where(eq(Budgets.id, params.id))
             .groupBy(Budgets.id);
-            if (result) {
-                setBudgetInfo(result[0])
+            
+            if (result.length > 0) {
+                setBudgetInfo(result[0]);
+            } else {
+                route.replace('/dashboard/budgets');
             }
-        getExpensesList();
+            
+            getExpensesList();
+        } catch (error) {
+            route.replace('/dashboard/budgets');
+        }
     };
+    
 
     const getExpensesList = async () => {
         const result = await db.select().from(Expenses)
