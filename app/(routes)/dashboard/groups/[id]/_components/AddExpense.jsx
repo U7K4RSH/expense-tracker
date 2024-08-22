@@ -120,6 +120,7 @@ function AddExpense({ params, refreshData, refreshData2 }) {
                                 <div className='mt-2'>
                                     <h2 className='text-black font-medium my-1'>Amount</h2>
                                     <Input
+                                        type="Number"
                                         placeholder="e.g. $40"
                                         onChange={(e) => setexpenseAmount(e.target.value)} />
                                 </div>
