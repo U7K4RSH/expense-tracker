@@ -19,29 +19,36 @@ function ExpenseListTable({expensesList, refreshData}) {
 
   return (
       <div className='mt-3'>
-          <h2 className='font-bold text-lg'>Latest Expenses</h2>
-          <div className='grid grid-cols-4 bg-slate-200 p-2 mt-3'>
-              <h2 className='font-bold'>Name</h2>
-              <h2 className='font-bold'>Amount</h2>
-              <h2 className='font-bold'>Date</h2>
-              <h2 className='font-bold'>Action</h2>
+          <h2 className='font-bold text-lg mb-3'>Latest Expenses</h2>
+          <div className='overflow-x-auto'>
+              <table className='min-w-full bg-white shadow-md rounded-lg overflow-hidden'>
+                  <thead>
+                      <tr className='bg-slate-200 text-left'>
+                          <th className='p-4 font-bold'>Name</th>
+                          <th className='p-4 font-bold'>Amount</th>
+                          <th className='p-4 font-bold'>Date</th>
+                          <th className='p-4 font-bold'>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {expensesList.map((expenses) => (
+                          <tr key={expenses.id} className='border-b border-slate-200 hover:bg-slate-100'>
+                              <td className='p-4'>{expenses.name}</td>
+                              <td className='p-4'>{expenses.amount}</td>
+                              <td className='p-4'>{expenses.createdAt}</td>
+                              <td className='p-4'>
+                                  <Trash
+                                      className='text-red-600 cursor-pointer hover:text-red-800 transition-colors duration-200'
+                                      onClick={() => deleteExpense(expenses)}
+                                  />
+                              </td>
+                          </tr>
+                      ))}
+                  </tbody>
+              </table>
           </div>
-          {expensesList.map((expenses) => (
-              <div key={expenses.id} className='grid grid-cols-4 bg-slate-50 p-2'>
-                  <h2>{expenses.name}</h2>
-                  <h2>{expenses.amount}</h2>
-                  <h2>{expenses.createdAt}</h2>
-                  <h2>
-                      <Trash
-                          className='text-red-600 cursor-pointer'
-                          onClick={() => deleteExpense(expenses)}
-                      />
-                  </h2>
-              </div>
-          ))}
       </div>
   );
 }
 
 export default ExpenseListTable;
-
