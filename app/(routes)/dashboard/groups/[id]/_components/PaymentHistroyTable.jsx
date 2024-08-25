@@ -22,8 +22,11 @@ function PaymentHistroyTable({ PaymentHistoryList, refreshData, refreshData2 }) 
             <h2 className='font-bold text-lg mb-3'>Payment History</h2>
             <div className='space-y-4'>
                 {PaymentHistoryList.map((payment) => (
-                    <div key={payment.paymentId} className='flex items-center justify-between p-4 bg-white shadow-md rounded-lg hover:bg-slate-100 transition-colors duration-200'>
-                        <span>
+                    <div
+                        key={payment.paymentId}
+                        className='flex items-center justify-between p-4 bg-white shadow-md rounded-lg hover:bg-slate-100 transition-colors duration-200'
+                    >
+                        <span className='text-sm lg:text-base'>
                             <span className='font-semibold text-blue-600'>{payment.from}</span> paid 
                             <span className='font-semibold text-green-600'> ${payment.amount}</span> to 
                             <span className='font-semibold text-blue-600'> {payment.to}</span> on {payment.date}

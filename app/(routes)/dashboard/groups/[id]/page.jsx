@@ -281,14 +281,23 @@ function GroupName({ params }) {
           <p className='text-gray-500'>No debts to display</p>
         )}
       </div>
-      <div className='flex'>
-        <div className='w-[55%] p-3'>
-          <ExpenseTable expenseList={expenseList} refreshData={() => resolveDebt()} refreshData2={() => getExpenseTable()} />
+      <div className='flex flex-col lg:flex-row'>
+        <div className='w-full lg:w-[55%] p-3'>
+          <ExpenseTable
+            expenseList={expenseList}
+            refreshData={() => resolveDebt()}
+            refreshData2={() => getExpenseTable()}
+          />
         </div>
-        <div className='w-[45%] p-3'>
-          <PaymentHistroyTable PaymentHistoryList={paymentHistoryList} refreshData={() => resolveDebt()} refreshData2={() => getPaymentHistory()} />
+        <div className='w-full lg:w-[45%] p-3'>
+          <PaymentHistroyTable
+            PaymentHistoryList={paymentHistoryList}
+            refreshData={() => resolveDebt()}
+            refreshData2={() => getPaymentHistory()}
+          />
         </div>
       </div>
+
 
     </div>
   )
