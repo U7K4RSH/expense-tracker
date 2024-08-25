@@ -17,7 +17,7 @@ import { MemberGroups } from '@/utils/schema';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input'
 
-function ManageGroup({params}) {
+function ManageGroup({params, refreshMembers}) {
 
     const [email, setEmail] = useState();
     const [name, setName] = useState();
@@ -31,6 +31,7 @@ function ManageGroup({params}) {
 
         if (result) {
             toast('Member added successfully')
+            refreshMembers();
         }
     }
 

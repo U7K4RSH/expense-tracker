@@ -30,7 +30,7 @@ import { useUser } from '@clerk/nextjs';
 import moment from 'moment/moment';
 import { toast } from 'sonner';
 
-function AddExpense({ params, refreshData, refreshData2 }) {
+function AddExpense({ params, groupMembers1, refreshData, refreshData2 }) {
     const [position, setPosition] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [groupMembers, setGroupMembers] = useState([]);
@@ -47,16 +47,6 @@ function AddExpense({ params, refreshData, refreshData2 }) {
         );
     };
 
-    const getMembers = async () => {
-        const result = await db
-            .select({ email: MemberGroups.email, name:MemberGroups.name })
-            .from(MemberGroups)
-            .where(eq(MemberGroups.groupId, params.id));
-        if (result) {
-            setGroupMembers(result);
-            setSelectedItems(result.map(member => member.name));
-        }
-    };
     
     const addExpense = async () => {
         const splitBetween = [...selectedItems];
@@ -96,9 +86,10 @@ function AddExpense({ params, refreshData, refreshData2 }) {
 
     useEffect(() => {
         if (user) {
-            getMembers();
+            setGroupMembers(groupMembers1);
+            setSelectedItems(groupMembers1.map(member => member.name));
         }
-    }, [user]);
+    }, [user, groupMembers1]);
 
     return (
         <div>

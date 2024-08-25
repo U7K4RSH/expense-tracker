@@ -29,6 +29,7 @@ function GroupName({ params }) {
   const [debt, setdebt] = useState([]);
   const [expenseList, setexpenseList] = useState([]);
   const [gname, setgname] = useState();
+  const [groupMembers, setGroupMembers] = useState([]);
   const route = useRouter();
 
   const checkUser = async () => {
@@ -144,12 +145,23 @@ function GroupName({ params }) {
     route.replace('/dashboard/groups');
   }
 
+  const getMembers = async () => {
+    const result = await db
+      .select({ email: MemberGroups.email, name: MemberGroups.name })
+      .from(MemberGroups)
+      .where(eq(MemberGroups.groupId, params.id));
+    if (result) {
+      setGroupMembers(result);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       checkUser();
       resolveDebt();
       getExpenseTable();
       getName();
+      getMembers();
     }
   }, [user]);
 
@@ -160,8 +172,8 @@ function GroupName({ params }) {
           {gname}
         </h2>
         <div className='flex gap-2 items-center'>
-          <AddExpense params={params} refreshData={() => resolveDebt()} refreshData2={() => getExpenseTable()} />
-          <ManageGroup params={params} />
+          <AddExpense params={params} groupMembers1={groupMembers} refreshData={() => resolveDebt()} refreshData2={() => getExpenseTable()} />
+          <ManageGroup params={params} refreshMembers={getMembers}/>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className="flex gap-2" variant="destructive">
