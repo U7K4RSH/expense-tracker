@@ -47,3 +47,13 @@ export const Graph = pgTable('Graph', {
     to: varchar('to').notNull(),
     amount: numeric('amount').notNull(),
 });
+
+export const PaymentHistory = pgTable('PaymentHistory', {
+    id: serial('id').primaryKey(),
+    groupId:uuid('groupId').references(()=>Groups.id),
+    paymentId:uuid('paymentId').references(()=>Graph.id),
+    date: varchar('date').notNull(),
+    from: varchar('from').notNull(),
+    to: varchar('to').notNull(),
+    amount: numeric('amount').notNull(),
+});
